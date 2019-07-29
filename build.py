@@ -8,11 +8,23 @@ if __name__ == "__main__":
     builder = ConanMultiPackager()
     builder.add(
         settings={"arch": "x86_64", "build_type": "Release"},
-        options={"dart:shared": False},
+        options={
+            "magnum:with_sdl2application": False,
+            "magnum:with_glfwapplication": True,
+            "magum:with_tgaimporter": True,
+            "magnum:with_anysceneimporter": True,
+            "magnum:with_meshtools": True,
+        },
     )
     builder.add(
         settings={"arch": "x86_64", "build_type": "Debug"},
-        options={"dart:shared": False},
+        options={
+            "magnum:with_sdl2application": False,
+            "magnum:with_glfwapplication": True,
+            "magum:with_tgaimporter": True,
+            "magnum:with_anysceneimporter": True,
+            "magnum:with_meshtools": True,
+        },
     )
 
     # add c++17 build configs
