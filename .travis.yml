@@ -1,84 +1,53 @@
 env:
-   global:
-     - CONAN_USERNAME: "helmesjo"
-     - CONAN_LOGIN_USERNAME: "helmesjo"
-     - CONAN_CHANNEL: "stable" # because of bug in conan-package-tools, we always upload packages as stable
-     - CONAN_UPLOAD: "https://api.bintray.com/conan/helmesjo/public-conan"
-     - CONAN_REMOTES: "https://api.bintray.com/conan/helmesjo/public-conan,https://api.bintray.com/conan/bincrafters/public-conan"
-     - CONAN_UPLOAD_ONLY_WHEN_STABLE: 0
-
-linux: &linux
-   os: linux
-   dist: xenial
-   language: python
-   python: "3.7"
-   services:
-     - docker
-osx: &osx
-   os: osx
-   language: generic
+  global:
+  - CONAN_USERNAME: rhololkeolke
+  - CONAN_LOGIN_USERNAME: rhololkeolke
+  - CONAN_CHANNEL: testing
+  - CONAN_UPLOAD: https://api.bintray.com/conan/rhololkeolke/public-conan
+  - CONAN_STABLE_BRANCH_PATTERN: stable/*
+  - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
+  - CONAN_ARCHS: x86_64
+  - CONAN_BUILD_POLICY: outdated
+  - CONAN_REMOTES: https://api.bintray.com/conan/bincrafters/public-conan,https://api.bintray.com/conan/bincrafters/public-conan
+  - secure: dvskD1iJsw8DeTv2BdphehLNdw2ZsGQBcBuRplVbGJFVvBvumXxYQWODX2fPGqyEWc8W4b2EZdlixKXYUeMu9DQTVfhcn2cGVFZiO107r0kgsDUbLRH06Wb2IpdW2K7byO4y5JPRlkZUP5A51plXnD8aIEXUT8VYOAxRMmatUL/DOgISAkzOf4EoDuLnv2f49nb/vKM4B1SiASQ2+Sw9hfFNuCqcGWhD+Xdw927tWtFe7EFcOeLWalqLPrqq5gHDZX21hDan+9qOL6krLpKnaT6ReeKtEZCCiJtd22tEEUkOX9baNc8s87m3+pdQHCoxSXnp1EWFQBJvqm1fH7mcS4FiMXdyZ654sfxrYVNa/6ERQm6PKmR9GlFeRjvzsy3EOHtx1ClB7+CMzSQMOm29YQRBqTcBd8jz5Aw4HcaMzkmqmHPgiXIdnZ+J9frtTId1c41crfnKl2Yxv+GApex+wFAglQAvW1wn/86ZNhCPZqbi9vpnAsbT4uV79eZLkHFf7FcZKA4XxRgdLIJLTvUjpd5/3PGkIh26acbLhZV//eGt+re58jb+HQutse4/oHfLUU/p9qu82FPPV69ROotXR2MLT5KPWVoP2Q/7novGdH7GmF9As0B5Plmf2hTcbMH5DtkQre5A2eJauIm/jMORYnGEoqDv6wxj9JTMYt8OsPQ=
+linux:
+  os: linux
+  dist: xenial
+  sudo: required
+  language: python
+  python: '3.7'
+  install: &1
+  - pip install -U conan conan_package_tools
+  addons: &2
+    apt:
+      sources:
+      - llvm-toolchain-xenial-8
+      - llvm-toolchain-xenial-7
+      packages:
+      - figlet
 matrix:
-   include:
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=4.9 CONAN_DOCKER_IMAGE=conanio/gcc49 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=5 CONAN_DOCKER_IMAGE=conanio/gcc5 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=6 CONAN_DOCKER_IMAGE=conanio/gcc6 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=7 CONAN_DOCKER_IMAGE=conanio/gcc7 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_GCC_VERSIONS=8 CONAN_DOCKER_IMAGE=conanio/gcc8 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=3.9 CONAN_DOCKER_IMAGE=conanio/clang39 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=4.0 CONAN_DOCKER_IMAGE=conanio/clang40 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=5.0 CONAN_DOCKER_IMAGE=conanio/clang50 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=6.0 CONAN_DOCKER_IMAGE=conanio/clang60 CONAN_ARCHS=x86_64
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7-x86 CONAN_ARCHS=x86
-      - <<: *linux
-        env: CONAN_CLANG_VERSIONS=7.0 CONAN_DOCKER_IMAGE=conanio/clang7 CONAN_ARCHS=x86_64
-      - <<: *osx
-        osx_image: xcode7.3
-        env: CONAN_APPLE_CLANG_VERSIONS=7.3
-      - <<: *osx
-        osx_image: xcode8.3
-        env: CONAN_APPLE_CLANG_VERSIONS=8.1
-      - <<: *osx
-        osx_image: xcode9
-        env: CONAN_APPLE_CLANG_VERSIONS=9.0
-      - <<: *osx
-        osx_image: xcode9.4
-        env: CONAN_APPLE_CLANG_VERSIONS=9.1
-      - <<: *osx
-        osx_image: xcode10.1
-        env: CONAN_APPLE_CLANG_VERSIONS=10.0
-
+  include:
+  - os: linux
+    dist: xenial
+    sudo: required
+    language: python
+    python: '3.7'
+    install: *1
+    addons: *2
+    env: CONAN_CLANG_VERSIONS=8 CC=/usr/bin/clang-8 CXX=/usr/bin/clang++-8 PACKAGES=clang-8
+before_install:
+- sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+- sudo apt-get update -q
+- sudo apt-get install libstdc++-7-dev ${PACKAGES} -y
+- figlet "CMake"
+- wget https://github.com/Kitware/CMake/releases/download/v3.14.3/cmake-3.14.3-Linux-x86_64.sh
+- chmod +x cmake-3.14.3-Linux-x86_64.sh
+- sudo ./cmake-3.14.3-Linux-x86_64.sh --prefix=/usr/local/ --skip-license --exclude-subdir
+- rm cmake-3.14.3-Linux-x86_64.sh
+- cmake --version
 install:
-  - chmod +x .ci/install.sh
-  - ./.ci/install.sh
-
+- chmod +x .travis/install.sh
+- "./.travis/install.sh"
 script:
-  - chmod +x .ci/run.sh
-  - ./.ci/run.sh
+- chmod +x .travis/run.sh
+- "./.travis/run.sh"
