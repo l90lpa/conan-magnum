@@ -317,10 +317,10 @@ class LibnameConan(ConanFile):
 
             self.cpp_info.libdirs.append(str(plugins_libs_path))
 
-            # make relative to conan rootdir
-            plugins_libs_path = Path(self.cpp_info.rootpath) / plugins_libs_path
-
+            libdirs = set()
             plugins_libs = []
             for plugins_lib in plugins_libs_path.glob("**/*.a"):
                 plugins_libs.append(plugins_lib.stem[3:])
-            self.cpp_info.libs = plugins_libs + self.cpp_info.libs                
+                libdirs.add(plugins_lib.parent)
+            self.cpp_info.libs = plugins_libs + self.cpp_info.libs
+            self.cpp_info.libdirs.extend(libdirs)
