@@ -310,18 +310,17 @@ class LibnameConan(ConanFile):
 
         # find static plugin libraries and add them to the linker list
         if self.options.build_plugins_static:
-            importer_libs_path = (
+            plugins_libs_path = (
                 Path("lib")
                 / f"magnum{'-d' if self.settings.build_type == 'Debug' else ''}"
-                / "importers"
             )
 
-            self.cpp_info.libdirs.append(str(importer_libs_path))
+            self.cpp_info.libdirs.append(str(plugins_libs_path))
 
             # make relative to conan rootdir
-            importer_libs_path = Path(self.cpp_info.rootpath) / importer_libs_path
+            plugins_libs_path = Path(self.cpp_info.rootpath) / plugins_libs_path
 
-            importer_libs = []
-            for importer_lib in importer_libs_path.glob("*.a"):
-                importer_libs.append(importer_lib.stem[3:])
-            self.cpp_info.libs = importer_libs + self.cpp_info.libs                
+            plugins_libs = []
+            for plugins_lib in plugins_libs_path.glob("**/*.a"):
+                plugins_libs.append(plugins_lib.stem[3:])
+            self.cpp_info.libs = plugins_libs + self.cpp_info.libs                
