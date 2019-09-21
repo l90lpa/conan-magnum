@@ -26,9 +26,11 @@ def sort_libs(correct_order, libs, lib_suffix="", reverse_result=False):
 
 class LibnameConan(ConanFile):
     name = "magnum"
-    version = "2019.01"
-    description = "Magnum — Lightweight and modular C++11/C++14 \
-                    graphics middleware for games and data visualization"
+    version = "2019.01.20190921"
+    description = (
+        "Magnum — Lightweight and modular C++11/C++14 "
+        "graphics middleware for games and data visualization"
+    )
     # topics can get used for searches, GitHub topics, Bintray tags etc. Add here keywords about the library
     topics = ("conan", "corrade", "graphics", "rendering", "3d", "2d", "opengl")
     url = "https://github.com/helmesjo/conan-magnum"
@@ -131,7 +133,7 @@ class LibnameConan(ConanFile):
     _source_subfolder = "source_subfolder"
     _build_subfolder = "build_subfolder"
 
-    requires = "corrade/2019.01@rhololkeolke/stable"
+    requires = "corrade/2019.01.20190921@rhololkeolke/stable"
 
     def system_package_architecture(self):
         if tools.os_info.with_apt:
@@ -207,12 +209,9 @@ class LibnameConan(ConanFile):
             self.requires("glfw/3.2.1.20180327@bincrafters/stable")
 
     def source(self):
-        source_url = "https://github.com/mosra/magnum"
-        tools.get("{0}/archive/v{1}.tar.gz".format(source_url, self.version))
-        extracted_dir = self.name + "-" + self.version
-
-        # Rename to "source_subfolder" is a convention to simplify later steps
-        os.rename(extracted_dir, self._source_subfolder)
+        git = tools.Git(folder=self._source_subfolder)
+        git.clone("https://github.com/mosra/magnum.git")
+        git.checkout("14bd07c559151dd4ebc1dfc7eae880dd858efd21")
 
     def _configure_cmake(self):
         cmake = CMake(self)
