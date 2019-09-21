@@ -8,6 +8,7 @@ env:
   - CONAN_UPLOAD_ONLY_WHEN_STABLE: 1
   - CONAN_ARCHS: x86_64
   - CONAN_BUILD_POLICY: outdated
+  - CONAN_TOTAL_PAGES: 4
   - CONAN_REMOTES: https://api.bintray.com/conan/bincrafters/public-conan
   - secure: dvskD1iJsw8DeTv2BdphehLNdw2ZsGQBcBuRplVbGJFVvBvumXxYQWODX2fPGqyEWc8W4b2EZdlixKXYUeMu9DQTVfhcn2cGVFZiO107r0kgsDUbLRH06Wb2IpdW2K7byO4y5JPRlkZUP5A51plXnD8aIEXUT8VYOAxRMmatUL/DOgISAkzOf4EoDuLnv2f49nb/vKM4B1SiASQ2+Sw9hfFNuCqcGWhD+Xdw927tWtFe7EFcOeLWalqLPrqq5gHDZX21hDan+9qOL6krLpKnaT6ReeKtEZCCiJtd22tEEUkOX9baNc8s87m3+pdQHCoxSXnp1EWFQBJvqm1fH7mcS4FiMXdyZ654sfxrYVNa/6ERQm6PKmR9GlFeRjvzsy3EOHtx1ClB7+CMzSQMOm29YQRBqTcBd8jz5Aw4HcaMzkmqmHPgiXIdnZ+J9frtTId1c41crfnKl2Yxv+GApex+wFAglQAvW1wn/86ZNhCPZqbi9vpnAsbT4uV79eZLkHFf7FcZKA4XxRgdLIJLTvUjpd5/3PGkIh26acbLhZV//eGt+re58jb+HQutse4/oHfLUU/p9qu82FPPV69ROotXR2MLT5KPWVoP2Q/7novGdH7GmF9As0B5Plmf2hTcbMH5DtkQre5A2eJauIm/jMORYnGEoqDv6wxj9JTMYt8OsPQ=
 linux: &linux
@@ -16,16 +17,21 @@ linux: &linux
   sudo: required
   language: python
   python: '3.7'
-  services: 
+  services:
     - docker
 matrix:
   include:
   - <<: *linux
-    env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=rhololkeolke/clang8
+    env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=rhololkeolke/clang8 CONAN_CURRENT_PAGE=1
+  - <<: *linux
+    env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=rhololkeolke/clang8 CONAN_CURRENT_PAGE=2
+  - <<: *linux
+    env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=rhololkeolke/clang8 CONAN_CURRENT_PAGE=3
+  - <<: *linux
+    env: CONAN_CLANG_VERSIONS=8 CONAN_DOCKER_IMAGE=rhololkeolke/clang8 CONAN_CURRENT_PAGE=4
 install:
   - chmod +x .travis/install.sh
   - "./.travis/install.sh"
 script:
   - chmod +x .travis/run.sh
   - "./.travis/run.sh"
-    

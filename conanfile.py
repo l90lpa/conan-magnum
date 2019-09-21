@@ -91,7 +91,7 @@ class LibnameConan(ConanFile):
         "fPIC": True,
         "build_deprecated": True,
         "build_multithreaded": True,
-        "build_plugins_static": True,
+        "build_plugins_static": False,
         "target_gl": True,
         "target_gles": False,
         "with_anyaudioimporter": False,
